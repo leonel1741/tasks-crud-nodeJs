@@ -30,14 +30,15 @@ const app = http.createServer(async (request, response) => {
         }
         if (requestMethod === "PUT") {
             request.on("data", (data) => {
-                // const putTask = JSON.parse(data);
-                const {id, status} = JSON.parse(data);
-                const taskIndex = arr.findIndex((task) => task.id === id);
-                arr[taskIndex].status === status;
+                const putTask = JSON.parse(data);
+                // const {id, status} = JSON.parse(data);
+                const taskIndex = arr.findIndex((task) => task.id === putTask.id);
+                arr[taskIndex].status = putTask.status;
+                console.log(arr[taskIndex].status);
                 const newData = JSON.stringify(arr);
+                response.writeHead('201');
                 fs.writeFile(jsonPath, newData)
                     .catch((error) => console.log(error));
-                response.writeHead('200');
             })
         }
 
